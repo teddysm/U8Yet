@@ -7,6 +7,12 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
   <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="./assets/css/style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;700&display=swap" rel="stylesheet" />
+<!-- not sure if necessary yet idk  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCKqb_Mh4uJWu7yUs3gVcfkwwzFtCqVsJw&libraries=places"></script> -->
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+  <script
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB41DRUbKWJHPxaFjMAwdrzWzbVKartNGg&callback=initAutocomplete&libraries=places&v=weekly"
+    defer></script>
   <title>Document</title>
 </head>
 <body>
@@ -16,16 +22,20 @@
     </div>
   </nav>
   <div class="row">
-    <div class="input-field col s6">
+    <ul id="restaurants-list"></ul> 
+<!--     <div class="input-field col s6">
       <input value="" id="first_name2" type="text" class="validate">
       <label class="active" for="first_name2">zip code</label>
-    </div>
+    </div> -->
   </div>
-  <button class="btn waves-effect waves-light green" type="submit" name="action">Submit
+  <!-- can't get these to work with the search function yet! almost have it working but i wanted to push some working code first -->
+<!--   <button class="btn waves-effect waves-light green" type="submit" name="action">Submit
     <i class="material-icons right"></i>
-  </button>
-        
-
+  </button> -->
+  <div>
+  <input id="pac-input" class="pac-controls" type="text" placeholder="Search Box" />
+  <div id="map" class="right-align"></div>
+  </div>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
   <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
