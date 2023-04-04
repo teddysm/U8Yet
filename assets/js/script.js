@@ -18,7 +18,7 @@ $.ajax({
       $("#results").append(
         "<h5>We discovered " + totalresults + " results!</h5>"
       )
-      // Itirate through the JSON array of 'businesses' which was returned by the API
+      // Iterate through the JSON array of 'businesses' which was returned by the API
       $.each(data.businesses, function (i, item) {
         // Store each business's object in a variable
         var id = item.id
