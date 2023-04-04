@@ -34,10 +34,10 @@ function handleAPICall(input){
 }
 
 
-getYelpData(
+/* getYelpData(
   "https://api.yelp.com/v3/businesses/search?location=" + city + "&term=restaurants&sort_by=best_match"
 );
-
+ */
 var nashville = {lat:36.1627, lng:-86.7816}
 
 // Adds a search box to a map, using the Google Place Autocomplete
@@ -85,6 +85,11 @@ function initAutocomplete() {
         anchor: new google.maps.Point(17, 34),
         scaledSize: new google.maps.Size(25, 25)
       };
+      console.log(place.name);
+      var cityName = `${place.name}`
+      getYelpData(
+        "https://api.yelp.com/v3/businesses/search?location=" + cityName + "&term=restaurants&sort_by=best_match"
+      );
       // Create a marker for each place.
       markers.push(
         new google.maps.Marker({
@@ -107,4 +112,3 @@ function initAutocomplete() {
 }
 
 window.initAutocomplete = initAutocomplete;
-
