@@ -6,12 +6,9 @@ async function getYelpData(yelpURL) {
     var url = baseURL + encodeURIComponent(yelpURL);
 
     var res = await fetch(url);
-
-    console.log(res);
-
+    // console.log(res);
     var data = await res.json();
-
-    console.log(data);
+    // console.log(data);
 
     handleAPICall(data.businesses);
 
@@ -85,6 +82,7 @@ function initAutocomplete() {
         anchor: new google.maps.Point(17, 34),
         scaledSize: new google.maps.Size(25, 25)
       };
+
       // Create a marker for each place.
       markers.push(
         new google.maps.Marker({
