@@ -89,11 +89,11 @@ body {
        * Always set the map height explicitly to define the size of the div element
        * that contains the map. 
        */
-#map {
+/* #map {
   margin: 0 auto 0 auto;
   height: 550px;
   width: 450px;
-}
+} */
 
 /* 
        * Optional: Makes the sample page fill the window. 
