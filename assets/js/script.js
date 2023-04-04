@@ -19,16 +19,42 @@ async function getYelpData(yelpURL) {
 
 function handleAPICall(input){
   for (let i = 0; i < 1; i++){
-    console.log(input[i].name);
-    console.log(input[i].display_phone);
-    console.log(input[i].price);
-    console.log(input[i].rating);
-    console.log(input[i].review_count);
-    console.log(input[i].location.display_address[0]);
-    console.log(input[i].location.display_address[1]);
-    console.log(input[i].image_url);
+     // console.log(input[i].name);
+    // console.log(input[i].display_phone);
+    // console.log(input[i].price);
+    // console.log(input[i].rating);
+    // console.log(input[i].review_count);
+    // console.log(input[i].location.display_address[0]);
+    // console.log(input[i].location.display_address[1]);
+    // console.log(input[i].image_url);
+    $('#cards').html(
+      `
+      <div class="row">
+        <div class="col s2 m2">
+          <div class="card">
+            <div class="card-image">
+              <img src="${input[i].image_url}">
+              <span class="card-title">${input[i].name}</span>
+            </div>
+            <div class="card-content">
+                <ul>
+                  <li>price:
+                  ${input[i].price}</li>
+                  <li>rating: ${input[i].rating}</li>
+                  <li>review count: ${input[i].review_count}</li>
+                  <li>address: ${input[i].location.display_address[0]}</li>
+                </ul>
+            </div>
+            <div class="card-action">
+              <a href="#">${input[i].display_phone}</a>
+            </div>
+          </div>
+        </div>
+      </div>`
+    )
   }
 }
+
 
 
 getYelpData(
