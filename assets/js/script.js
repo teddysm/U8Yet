@@ -36,7 +36,7 @@ function handleAPICall(input) {
         <div class="col s12 m2">
           <div class="card">
             <div class="card-image">
-              <img style="max-height: 190px;" src="${input[i].image_url}">
+              <img style="max-height: 190px; object-fit: cover; height: auto;" src="${input[i].image_url}">
               <span class="card-title">${input[i].name}</span>
             </div>
             <div class="card-content">
@@ -54,29 +54,7 @@ function handleAPICall(input) {
         </div>`
     );
   }
-  /*   const restaurantAddress = document.querySelector(".restaurant-address");
-  restaurantAddress.addEventListener("click", function (event) {
-    event.preventDefault();
-    console.log(restaurantAddress.textContent)
-    var geocoder = new google.maps.Geocoder();
-    geocoder.geocode(
-      { address: restaurantAddress.textContent },
-      function (results, status) {
-        if (status === "OK") {
-          map.setCenter(results[0].geometry.location);
-          map.setZoom(15);
-          var marker = new google.maps.Marker({
-            map: map,
-            position: results[0].geometry.location,
-          });
-        } else {
-          alert(
-            "Geocode was not successful for the following reason: " + status
-          );
-        }
-      }
-    );
-  }); */
+
   const restaurantAddress = document.querySelectorAll(".restaurant-address");
   restaurantAddress.forEach(function (address, i) {
     address.addEventListener("click", function (event) {
@@ -103,12 +81,6 @@ function handleAPICall(input) {
   });
 }
 
-/* getYelpData(
-
-/* getYelpData(
-  "https://api.yelp.com/v3/businesses/search?location=" + city + "&term=restaurants&sort_by=best_match"
-);
- */
 var nashville = { lat: 36.1627, lng: -86.7816 };
 
 // Adds a search box to a map, using the Google Place Autocomplete
@@ -184,27 +156,5 @@ function initAutocomplete() {
     map.fitBounds(bounds);
   });
 }
-/* document.addEventListener('DOMContentLoaded', function() {
-var restaurantAddress = document.querySelector('.restaurant-address');
-restaurantAddress.addEventListener('click', function(event) {
-  // Prevent the default link behavior
-  event.preventDefault();
-  // Geocode the address to get its coordinates
-  var geocoder = new google.maps.Geocoder();
-  geocoder.geocode({'address': restaurantAddress.textContent}, function(results, status) {
-    if (status === 'OK') {
-      // Center the map on the location
-      map.setCenter(results[0].geometry.location);
-      // Add a marker to indicate the location
-      var marker = new google.maps.Marker({
-        map: map,
-        position: results[0].geometry.location
-      });
-    } else {
-      alert('Geocode was not successful for the following reason: ' + status);
-    }
-  });
-});
 
-}); */
 window.initAutocomplete = initAutocomplete;
