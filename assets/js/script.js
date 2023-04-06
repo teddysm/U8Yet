@@ -33,8 +33,8 @@ function handleAPICall(input){
     // console.log(input[i].image_url);
     $("#cards").append(
       `
-      <div class="row">
-        <div class="col s2 m2">
+      
+        <div class="col s12 m2">
           <div class="card">
             <div class="card-image">
               <img src="${input[i].image_url}">
@@ -46,15 +46,14 @@ function handleAPICall(input){
                   ${input[i].price}</li>
                   <li>rating: ${input[i].rating}</li>
                   <li>review count: ${input[i].review_count}</li>
-                  <li class="restaurant-address">address: <a href="#">${input[i].location.display_address[0]}</a></li>
                 </ul>
             </div>
             <div class="card-action">
               <a href="#">${input[i].display_phone}</a>
+              <a href="#">${input[i].location.display_address[0]}</a>
             </div>
           </div>
-        </div>
-      </div>`
+        </div>`
     );
   }
 /*   const restaurantAddress = document.querySelector(".restaurant-address");
