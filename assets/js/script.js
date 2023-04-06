@@ -37,7 +37,7 @@ function handleAPICall(input) {
           <div class="card">
             <div class="card-image">
               <img style="max-height: 190px; object-fit: cover; height: auto;" src="${input[i].image_url}">
-              <span class="card-title">${input[i].name}</span>
+              <span class="card-title" style="text-shadow: 2px 2px 2px rgba(0,0,0,0.3); font-weight: normal;">${input[i].name}</span>
             </div>
             <div class="card-content">
                 <ul>
