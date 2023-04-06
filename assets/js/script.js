@@ -1,6 +1,5 @@
 let city = "Nashville";
 var map;
-var restaurantCards = document.querySelectorAll(".card");
 
 async function getYelpData(yelpURL) {
   try {
