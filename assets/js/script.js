@@ -49,7 +49,7 @@ function handleAPICall(input){
                 </ul>
             </div>
             <div class="card-action">
-              <a href="#">${input[i].display_phone}</a>
+              <a href="#">${input[i].display_phone}</a> <br>
               <a class="restaurant-address" href="#">${input[i].location.display_address[0]} ${input[i].location.display_address[1]}</a>
             </div>
           </div>
