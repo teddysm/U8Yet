@@ -7,12 +7,9 @@ async function getYelpData(yelpURL) {
     var url = baseURL + encodeURIComponent(yelpURL);
 
     var res = await fetch(url);
-
-    console.log(res);
-
+    // console.log(res);
     var data = await res.json();
-
-    console.log(data);
+    // console.log(data);
 
     handleAPICall(data.businesses);
   } catch (err) {
