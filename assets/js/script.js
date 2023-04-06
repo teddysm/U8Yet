@@ -1,4 +1,5 @@
 let city = "Nashville"
+var map;
 
 async function getYelpData(yelpURL) {
   try {
@@ -18,8 +19,8 @@ async function getYelpData(yelpURL) {
 }
 
 function handleAPICall(input){
-  for (let i = 0; i < 1; i++){
-     // console.log(input[i].name);
+  for (let i = 0; i < input.length; i++) {
+    // console.log(input[i].name);
     // console.log(input[i].display_phone);
     // console.log(input[i].price);
     // console.log(input[i].rating);
@@ -27,10 +28,10 @@ function handleAPICall(input){
     // console.log(input[i].location.display_address[0]);
     // console.log(input[i].location.display_address[1]);
     // console.log(input[i].image_url);
-    $('#cards').html(
+    $("#cards").append(
       `
-      <div class="row">
-        <div class="col s2 m2">
+      
+        <div class="col s12 m2">
           <div class="card">
             <div class="card-image">
               <img src="${input[i].image_url}">
@@ -42,17 +43,63 @@ function handleAPICall(input){
                   ${input[i].price}</li>
                   <li>rating: ${input[i].rating}</li>
                   <li>review count: ${input[i].review_count}</li>
-                  <li>address: ${input[i].location.display_address[0]}</li>
                 </ul>
             </div>
             <div class="card-action">
-              <a href="#">${input[i].display_phone}</a>
+              <a href="#">${input[i].display_phone}</a> <br>
+              <a class="restaurant-address" href="#">${input[i].location.display_address[0]} ${input[i].location.display_address[1]}</a>
             </div>
           </div>
-        </div>
-      </div>`
-    )
+        </div>`
+    );
   }
+/*   const restaurantAddress = document.querySelector(".restaurant-address");
+  restaurantAddress.addEventListener("click", function (event) {
+    event.preventDefault();
+    console.log(restaurantAddress.textContent)
+    var geocoder = new google.maps.Geocoder();
+    geocoder.geocode(
+      { address: restaurantAddress.textContent },
+      function (results, status) {
+        if (status === "OK") {
+          map.setCenter(results[0].geometry.location);
+          map.setZoom(15);
+          var marker = new google.maps.Marker({
+            map: map,
+            position: results[0].geometry.location,
+          });
+        } else {
+          alert(
+            "Geocode was not successful for the following reason: " + status
+          );
+        }
+      }
+    );
+  }); */
+  const restaurantAddress = document.querySelectorAll(".restaurant-address");
+  restaurantAddress.forEach(function (address, i) {
+  address.addEventListener("click", function (event) {
+    event.preventDefault();
+    var geocoder = new google.maps.Geocoder();
+    geocoder.geocode(
+      { address: address.textContent },
+      function (results, status) {
+        if (status === "OK") {
+          map.setCenter(results[0].geometry.location);
+          map.setZoom(15);
+          var marker = new google.maps.Marker({
+            map: map,
+            position: results[0].geometry.location,
+          });
+        } else {
+          alert(
+            "Geocode was not successful for the following reason: " + status
+          );
+        }
+      }
+    );
+  });
+});
 }
 
 
@@ -68,7 +115,7 @@ var nashville = {lat:36.1627, lng:-86.7816}
 // feature. People can enter geographical searches. The search box will return a
 // pick list containing a mix of places and predicted search terms.
 function initAutocomplete() {
-  const map = new google.maps.Map(document.getElementById("map"), {
+  map = new google.maps.Map(document.getElementById("map"), {
     center: nashville,
     zoom: 12,
     mapTypeId: "roadmap"
@@ -134,5 +181,27 @@ function initAutocomplete() {
     map.fitBounds(bounds);
   });
 }
+/* document.addEventListener('DOMContentLoaded', function() {
+var restaurantAddress = document.querySelector('.restaurant-address');
+restaurantAddress.addEventListener('click', function(event) {
+  // Prevent the default link behavior
+  event.preventDefault();
+  // Geocode the address to get its coordinates
+  var geocoder = new google.maps.Geocoder();
+  geocoder.geocode({'address': restaurantAddress.textContent}, function(results, status) {
+    if (status === 'OK') {
+      // Center the map on the location
+      map.setCenter(results[0].geometry.location);
+      // Add a marker to indicate the location
+      var marker = new google.maps.Marker({
+        map: map,
+        position: results[0].geometry.location
+      });
+    } else {
+      alert('Geocode was not successful for the following reason: ' + status);
+    }
+  });
+});
 
+}); */
 window.initAutocomplete = initAutocomplete;
