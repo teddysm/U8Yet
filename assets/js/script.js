@@ -21,8 +21,8 @@ async function getYelpData(yelpURL) {
 }
 
 function handleAPICall(input){
-  for (let i = 0; i < 1; i++){
-     // console.log(input[i].name);
+  for (let i = 0; i < input.length; i++){
+    // console.log(input[i].name);
     // console.log(input[i].display_phone);
     // console.log(input[i].price);
     // console.log(input[i].rating);
@@ -30,7 +30,7 @@ function handleAPICall(input){
     // console.log(input[i].location.display_address[0]);
     // console.log(input[i].location.display_address[1]);
     // console.log(input[i].image_url);
-    $('#cards').html(
+    $('#cards').append(
       `
       <div class="row">
         <div class="col s2 m2">
