@@ -1,4 +1,4 @@
-let city = "Nashville"
+let city = "Nashville";
 var map;
 
 async function getYelpData(yelpURL) {
@@ -15,13 +15,12 @@ async function getYelpData(yelpURL) {
     console.log(data);
 
     handleAPICall(data.businesses);
-
   } catch (err) {
     console.log(err);
   }
 }
 
-function handleAPICall(input){
+function handleAPICall(input) {
   for (let i = 0; i < input.length; i++) {
     // console.log(input[i].name);
     // console.log(input[i].display_phone);
@@ -37,15 +36,14 @@ function handleAPICall(input){
         <div class="col s12 m2">
           <div class="card">
             <div class="card-image">
-              <img src="${input[i].image_url}">
-              <span class="card-title">${input[i].name}</span>
+              <img style="max-height: 190px; object-fit: cover; height: auto;" src="${input[i].image_url}">
+              <span class="card-title" style="text-shadow: 2px 2px 2px rgba(0,0,0,0.3); font-weight: normal;">${input[i].name}</span>
             </div>
             <div class="card-content">
                 <ul>
-                  <li>price:
-                  ${input[i].price}</li>
-                  <li>rating: ${input[i].rating}</li>
-                  <li>review count: ${input[i].review_count}</li>
+                  <li style="font-size: 20px;">Price: ${input[i].price}</li>
+                  <li style="font-size: 20px;">Rating: ${input[i].rating} <i class="material-icons md-18">star_rate</i></li>
+                  <li style="font-size: 15px;">${input[i].review_count} reviews</li>
                 </ul>
             </div>
             <div class="card-action">
@@ -56,63 +54,34 @@ function handleAPICall(input){
         </div>`
     );
   }
-/*   const restaurantAddress = document.querySelector(".restaurant-address");
-  restaurantAddress.addEventListener("click", function (event) {
-    event.preventDefault();
-    console.log(restaurantAddress.textContent)
-    var geocoder = new google.maps.Geocoder();
-    geocoder.geocode(
-      { address: restaurantAddress.textContent },
-      function (results, status) {
-        if (status === "OK") {
-          map.setCenter(results[0].geometry.location);
-          map.setZoom(15);
-          var marker = new google.maps.Marker({
-            map: map,
-            position: results[0].geometry.location,
-          });
-        } else {
-          alert(
-            "Geocode was not successful for the following reason: " + status
-          );
-        }
-      }
-    );
-  }); */
+
   const restaurantAddress = document.querySelectorAll(".restaurant-address");
   restaurantAddress.forEach(function (address, i) {
-  address.addEventListener("click", function (event) {
-    event.preventDefault();
-    var geocoder = new google.maps.Geocoder();
-    geocoder.geocode(
-      { address: address.textContent },
-      function (results, status) {
-        if (status === "OK") {
-          map.setCenter(results[0].geometry.location);
-          map.setZoom(15);
-          var marker = new google.maps.Marker({
-            map: map,
-            position: results[0].geometry.location,
-          });
-        } else {
-          alert(
-            "Geocode was not successful for the following reason: " + status
-          );
+    address.addEventListener("click", function (event) {
+      event.preventDefault();
+      var geocoder = new google.maps.Geocoder();
+      geocoder.geocode(
+        { address: address.textContent },
+        function (results, status) {
+          if (status === "OK") {
+            map.setCenter(results[0].geometry.location);
+            map.setZoom(15);
+            var marker = new google.maps.Marker({
+              map: map,
+              position: results[0].geometry.location,
+            });
+          } else {
+            alert(
+              "Geocode was not successful for the following reason: " + status
+            );
+          }
         }
-      }
-    );
+      );
+    });
   });
-});
 }
 
-
-/* getYelpData(
-
-/* getYelpData(
-  "https://api.yelp.com/v3/businesses/search?location=" + city + "&term=restaurants&sort_by=best_match"
-);
- */
-var nashville = {lat:36.1627, lng:-86.7816}
+var nashville = { lat: 36.1627, lng: -86.7816 };
 
 // Adds a search box to a map, using the Google Place Autocomplete
 // feature. People can enter geographical searches. The search box will return a
@@ -121,7 +90,7 @@ function initAutocomplete() {
   map = new google.maps.Map(document.getElementById("map"), {
     center: nashville,
     zoom: 12,
-    mapTypeId: "roadmap"
+    mapTypeId: "roadmap",
   });
   // Create the search box and link it to the UI element.
   const input = document.getElementById("pac-input");
@@ -141,13 +110,14 @@ function initAutocomplete() {
       return;
     }
     // Clear out the old markers.
-    markers.forEach(marker => {
+    markers.forEach((marker) => {
       marker.setMap(null);
     });
     markers = [];
+    $('#cards').html(``);
     // For each place, get the icon, name and location.
     const bounds = new google.maps.LatLngBounds();
-    places.forEach(place => {
+    places.forEach((place) => {
       if (!place.geometry) {
         console.log("Returned place contains no geometry");
         return;
@@ -157,12 +127,14 @@ function initAutocomplete() {
         size: new google.maps.Size(71, 71),
         origin: new google.maps.Point(0, 0),
         anchor: new google.maps.Point(17, 34),
-        scaledSize: new google.maps.Size(25, 25)
+        scaledSize: new google.maps.Size(25, 25),
       };
       console.log(place.name);
-      var cityName = `${place.name}`
+      var cityName = `${place.name}`;
       getYelpData(
-        "https://api.yelp.com/v3/businesses/search?location=" + cityName + "&term=restaurants&sort_by=best_match"
+        "https://api.yelp.com/v3/businesses/search?location=" +
+          cityName +
+          "&term=restaurants&sort_by=best_match"
       );
       // Create a marker for each place.
       markers.push(
@@ -170,7 +142,7 @@ function initAutocomplete() {
           map,
           icon,
           title: place.name,
-          position: place.geometry.location
+          position: place.geometry.location,
         })
       );
 
@@ -184,27 +156,5 @@ function initAutocomplete() {
     map.fitBounds(bounds);
   });
 }
-/* document.addEventListener('DOMContentLoaded', function() {
-var restaurantAddress = document.querySelector('.restaurant-address');
-restaurantAddress.addEventListener('click', function(event) {
-  // Prevent the default link behavior
-  event.preventDefault();
-  // Geocode the address to get its coordinates
-  var geocoder = new google.maps.Geocoder();
-  geocoder.geocode({'address': restaurantAddress.textContent}, function(results, status) {
-    if (status === 'OK') {
-      // Center the map on the location
-      map.setCenter(results[0].geometry.location);
-      // Add a marker to indicate the location
-      var marker = new google.maps.Marker({
-        map: map,
-        position: results[0].geometry.location
-      });
-    } else {
-      alert('Geocode was not successful for the following reason: ' + status);
-    }
-  });
-});
 
-}); */
 window.initAutocomplete = initAutocomplete;
