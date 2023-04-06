@@ -10,6 +10,7 @@ body {
   height: 100%;
   margin: 0;
   padding: 0;
+  background-color: lightblue;
 }
 
 #description {
@@ -29,6 +30,12 @@ body {
 #map #infowindow-content {
   display: inline;
 }
+
+#search-box{
+  float: right;
+  margin: 10px;
+}
+
 
 .pac-card {
   margin: 10px 10px 0 0;
@@ -63,7 +70,8 @@ body {
   font-family: Roboto;
   font-size: 15px;
   font-weight: 300;
-  /* margin-left: 12px; */
+  /* margin: 10px; */
+  /* margin-left: 350px; */
   padding: 0 11px 0 13px;
   text-overflow: ellipsis;
   width: 400px;
@@ -89,11 +97,12 @@ body {
        * Always set the map height explicitly to define the size of the div element
        * that contains the map. 
        */
-/* #map {
+#map {
+  float: right;
   margin: 0 auto 0 auto;
   height: 550px;
   width: 450px;
-} */
+}
 
 /* 
        * Optional: Makes the sample page fill the window. 
