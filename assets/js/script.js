@@ -17,6 +17,8 @@ async function getYelpData(yelpURL) {
   }
 }
 
+// TODO: click on pin, move page
+
 function handleAPICall(input) {
   console.log(input);
   for (let i = 0; i < input.length; i++) {
