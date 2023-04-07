@@ -20,17 +20,22 @@ async function getYelpData(yelpURL) {
 function handleAPICall(input) {
   console.log(input);
   for (let i = 0; i < input.length; i++) {
-    let priceText = `${input[i].price}`
-    if (priceText == 'undefined')
-      priceText = 'N/A'
-    // console.log(input[i].name);
-    // console.log(input[i].display_phone);
-    // console.log(input[i].price);
-    // console.log(input[i].rating);
-    // console.log(input[i].review_count);
-    // console.log(input[i].location.display_address[0]);
-    // console.log(input[i].location.display_address[1]);
-    // console.log(input[i].image_url);
+/*     let phoneNum = `${input[i].display_phone}`; */
+    let phoneNum = displayValue(input[i].display_phone);
+    phoneNum = phoneNum.replace(/\D/g,'');
+    phoneNum = phoneNum.replace(/(\d{3})(\d{3})(\d{4})/, '$1-$2-$3');
+    let priceText = displayValue(input[i].price);
+    let ratingText = displayValue(input[i].rating);
+    let reviewCountText = displayValue(input[i].review_count);
+    let address1 = displayValue(input[i].location.display_address[0]);
+    let address2 = displayValue(input[i].location.display_address[1]);
+    function displayValue(value) {
+      if (typeof value === 'undefined') {
+        return 'N/A';
+      }
+      return value;
+    }
+    
     $("#cards").append(
       `
       
@@ -42,14 +47,15 @@ function handleAPICall(input) {
             </div>
             <div class="card-content">
                 <ul>
-                  <li style="font-size: 20px;">Price: ${priceText}</li>
-                  <li style="font-size: 20px;">Rating: ${input[i].rating} <i class="material-icons md-18">star_rate</i></li>
-                  <li style="font-size: 15px;">${input[i].review_count} reviews</li>
+                  <li style="font-size: 18px;">Price: ${priceText}</li>
+                  <li style="font-size: 18px;">Rating: ${ratingText}<i class="material-icons inline-icon md-18">star_rate</i></li>
+                  <li style="font-size: 15px;">${reviewCountText} reviews</li>
                 </ul>
             </div>
             <div class="card-action" style="min-height: 100.5px;">
-              <a href="#">${input[i].display_phone}</a> <br>
-              <a class="restaurant-address" href="#">${input[i].location.display_address[0]} ${input[i].location.display_address[1]}</a>
+              <i class="material-icons md-18 inline-icon">call</i>
+              <a href="tel:${phoneNum}" style="font-size: 18px;">${phoneNum}</a> <br>
+              <a class="restaurant-address" href="#" style="font-size: 18px;">${address1} ${address2}</a>
             </div>
           </div>
         </div>`
@@ -85,7 +91,7 @@ function handleAPICall(input) {
         function (results, status) {
           if (status === "OK") {
             map.setCenter(results[0].geometry.location);
-            map.setZoom(15);
+            map.setZoom(18);
             new google.maps.Marker({
               map: map,
               position: results[0].geometry.location,
@@ -111,6 +117,9 @@ function initAutocomplete() {
     center: nashville,
     zoom: 12,
     mapTypeId: "roadmap",
+    disableDefaultUI: true,
+    scaleControl: true,
+    zoomControl: true,
   });
   // Create the search box and link it to the UI element.
   const input = document.getElementById("pac-input");
@@ -125,7 +134,7 @@ function initAutocomplete() {
   // more details for that place.
   searchBox.addListener("places_changed", () => {
     const places = searchBox.getPlaces();
-
+    map.setZoom(20);
     if (places.length == 0) {
       return;
     }
@@ -174,6 +183,7 @@ function initAutocomplete() {
       }
     });
     map.fitBounds(bounds);
+    map.setZoom(12);
   });
 }
 
