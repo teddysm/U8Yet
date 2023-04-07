@@ -18,6 +18,7 @@ async function getYelpData(yelpURL) {
 }
 
 function handleAPICall(input) {
+  console.log(input);
   for (let i = 0; i < input.length; i++) {
     let priceText = `${input[i].price}`
     if (priceText == 'undefined')
@@ -53,10 +54,16 @@ function handleAPICall(input) {
           </div>
         </div>`
     );
+    
+    new google.maps.Marker({
+      position: { lat: input[i].coordinates.latitude, lng: input[i].coordinates.longitude },
+      map: map,
+      title: input[i].name
+    });
   }
 
   const restaurantAddress = document.querySelectorAll(".restaurant-address");
-  restaurantAddress.forEach(function (address, i) {
+  restaurantAddress.forEach(function (address) {
     address.addEventListener("click", function (event) {
       event.preventDefault();
       var geocoder = new google.maps.Geocoder();
@@ -66,7 +73,7 @@ function handleAPICall(input) {
           if (status === "OK") {
             map.setCenter(results[0].geometry.location);
             map.setZoom(15);
-            var marker = new google.maps.Marker({
+            new google.maps.Marker({
               map: map,
               position: results[0].geometry.location,
             });
