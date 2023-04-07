@@ -20,8 +20,10 @@ async function getYelpData(yelpURL) {
 function handleAPICall(input) {
   console.log(input);
   for (let i = 0; i < input.length; i++) {
-    console.log(input[i].coordinates.latitude);
-    console.log(input[i].coordinates.longitude);
+    let text = input[i].price;
+    if (input[i].price == 'undefined'){
+      text = 'N/A'
+    } 
     $("#cards").append(
       `
         <div class="col s12 m2">
@@ -32,7 +34,7 @@ function handleAPICall(input) {
             </div>
             <div class="card-content">
                 <ul>
-                  <li style="font-size: 20px;">Price: ${input[i].price}</li>
+                  <li style="font-size: 20px;">Price: ${text}</li>
                   <li style="font-size: 20px;">Rating: ${input[i].rating} <i class="material-icons md-18">star_rate</i></li>
                   <li style="font-size: 15px;">${input[i].review_count} reviews</li>
                 </ul>
@@ -45,10 +47,23 @@ function handleAPICall(input) {
         </div>`
     );
     
-    new google.maps.Marker({
+    const contentString = `<h6>${input[i].name}</h6>`;
+    const infowindow = new google.maps.InfoWindow({
+      content: contentString,
+      ariaLabel: input[i].name,
+    });
+    
+    const marker = new google.maps.Marker({
       position: { lat: input[i].coordinates.latitude, lng: input[i].coordinates.longitude },
       map: map,
       title: input[i].name
+    });
+
+    marker.addListener("hover", () => {
+      infowindow.open({
+        anchor: marker,
+        map,
+      });
     });
   }
 
@@ -131,7 +146,7 @@ function initAutocomplete() {
       getYelpData(
         "https://api.yelp.com/v3/businesses/search?location=" +
           cityName +
-          "&term=restaurants&sort_by=best_match"
+          "&term=restaurants&sort_by=best_match&limit=18"
       );
       // Create a marker for each place.
       markers.push(
