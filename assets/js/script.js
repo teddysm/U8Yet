@@ -19,6 +19,9 @@ async function getYelpData(yelpURL) {
 
 function handleAPICall(input) {
   for (let i = 0; i < input.length; i++) {
+    let priceText = `${input[i].price}`
+    if (priceText == 'undefined')
+      priceText = 'N/A'
     // console.log(input[i].name);
     // console.log(input[i].display_phone);
     // console.log(input[i].price);
@@ -30,20 +33,20 @@ function handleAPICall(input) {
     $("#cards").append(
       `
       
-        <div class="col s12 m2">
+        <div class="col s12 m4 l3 xl2" style="min-height: 473.5px;">
           <div class="card">
             <div class="card-image">
-              <img style="max-height: 190px; object-fit: cover; height: auto;" src="${input[i].image_url}">
+              <img style="max-height: 190px; min-height: 190px; object-fit: cover; height: auto;" src="${input[i].image_url}">
               <span class="card-title" style="text-shadow: 2px 2px 2px rgba(0,0,0,0.3); font-weight: normal;">${input[i].name}</span>
             </div>
             <div class="card-content">
                 <ul>
-                  <li style="font-size: 20px;">Price: ${input[i].price}</li>
+                  <li style="font-size: 20px;">Price: ${priceText}</li>
                   <li style="font-size: 20px;">Rating: ${input[i].rating} <i class="material-icons md-18">star_rate</i></li>
                   <li style="font-size: 15px;">${input[i].review_count} reviews</li>
                 </ul>
             </div>
-            <div class="card-action">
+            <div class="card-action" style="min-height: 100.5px;">
               <a href="#">${input[i].display_phone}</a> <br>
               <a class="restaurant-address" href="#">${input[i].location.display_address[0]} ${input[i].location.display_address[1]}</a>
             </div>
