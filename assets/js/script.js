@@ -23,14 +23,6 @@ function handleAPICall(input) {
     let priceText = `${input[i].price}`
     if (priceText == 'undefined')
       priceText = 'N/A'
-    // console.log(input[i].name);
-    // console.log(input[i].display_phone);
-    // console.log(input[i].price);
-    // console.log(input[i].rating);
-    // console.log(input[i].review_count);
-    // console.log(input[i].location.display_address[0]);
-    // console.log(input[i].location.display_address[1]);
-    // console.log(input[i].image_url);
     $("#cards").append(
       `
       
@@ -67,11 +59,14 @@ function handleAPICall(input) {
       title: input[i].name
     });
 
-    marker.addListener("hover", () => {
+    marker.addListener("mouseover", () => {
       infowindow.open({
         anchor: marker,
         map,
       });
+    });
+    marker.addListener("mouseout", () => {
+      infowindow.close();
     });
   }
 
