@@ -55,10 +55,23 @@ function handleAPICall(input) {
         </div>`
     );
     
-    new google.maps.Marker({
+    const contentString = `<h6>${input[i].name}</h6>`;
+    const infowindow = new google.maps.InfoWindow({
+      content: contentString,
+      ariaLabel: input[i].name,
+    });
+    
+    const marker = new google.maps.Marker({
       position: { lat: input[i].coordinates.latitude, lng: input[i].coordinates.longitude },
       map: map,
       title: input[i].name
+    });
+
+    marker.addListener("hover", () => {
+      infowindow.open({
+        anchor: marker,
+        map,
+      });
     });
   }
 
@@ -141,7 +154,7 @@ function initAutocomplete() {
       getYelpData(
         "https://api.yelp.com/v3/businesses/search?location=" +
           cityName +
-          "&term=restaurants&sort_by=best_match"
+          "&term=restaurants&sort_by=best_match&limit=18"
       );
       // Create a marker for each place.
       markers.push(
