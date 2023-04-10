@@ -53,10 +53,10 @@ function handleAPICall(input) {
                   <li style="font-size: 15px;">${reviewCountText} reviews</li>
                 </ul>
             </div>
-            <div class="card-action" style="min-height: 100.5px;">
+            <div class="card-action" style="min-height: 114px; max-height: 114px;">
               <i class="material-icons md-18 inline-icon">call</i>
               <a href="tel:${phoneNum}" style="font-size: 18px;">${phoneNum}</a> <br>
-              <a class="restaurant-address" href="#" style="font-size: 18px;">${address1} ${address2}</a>
+              <a class="restaurant-address" href="#" style="font-size: 15px;">${address1} ${address2}</a>
             </div>
           </div>
         </div>`
