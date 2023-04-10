@@ -9,25 +9,24 @@
   <link rel="stylesheet" href="./assets/css/style.css" />
   <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;700&display=swap" rel="stylesheet" />
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-<!-- not sure if necessary yet idk  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCKqb_Mh4uJWu7yUs3gVcfkwwzFtCqVsJw&libraries=places"></script> -->
   <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
   <script
   src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCKqb_Mh4uJWu7yUs3gVcfkwwzFtCqVsJw&callback=initAutocomplete&libraries=places&v=weekly"
   defer></script>
-<!-- GOOGLE DEFAULT API THING IN CASE MINE BREAKS IDK  <script
-    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB41DRUbKWJHPxaFjMAwdrzWzbVKartNGg&callback=initAutocomplete&libraries=places&v=weekly"
-    defer></script> -->
   <title>U8Yet?</title>
 </head>
 <body>
+  <!-- nav bar with pokemon icon -->
   <nav>
     <div class="nav-wrapper blue">
       <a href="#" class="brand-logo center blue material-icons md-48">catching_pokemon</a>
     </div>
   </nav>
+  <!-- search bar and the map using Google Maps API -->
   <div class="row"><input id="pac-input" class="pac-controls" type="text" placeholder="Search Box" />
     <div id="map" class="right-align"></div>
   </div>
+  <!-- the restaurant cards will show up here after the search -->
   <div class="row" id ="cards" ></div>
 
 

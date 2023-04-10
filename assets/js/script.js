@@ -1,15 +1,14 @@
-let city = "Nashville";
 var map;
 
+// Make the API call to Yelp
 async function getYelpData(yelpURL) {
   try {
+    // thanks Caleb
     var baseURL = "https://yelp-server-caleb-crum.herokuapp.com/api?url=";
     var url = baseURL + encodeURIComponent(yelpURL);
 
     var res = await fetch(url);
-    // console.log(res);
     var data = await res.json();
-    // console.log(data);
 
     handleAPICall(data.businesses);
   } catch (err) {
@@ -17,14 +16,27 @@ async function getYelpData(yelpURL) {
   }
 }
 
-// TODO: click on pin, move page
-
+// Yelp API call will return information about 18 restaurants (6 cards on each row)
+// For each restaurant, the card will display information about the name, phone number,
+// address, cost, rating and review count
 function handleAPICall(input) {
-  console.log(input);
   for (let i = 0; i < input.length; i++) {
-    let priceText = `${input[i].price}`
-    if (priceText == 'undefined')
-      priceText = 'N/A'
+    let phoneNum = displayValue(input[i].display_phone);
+    phoneNum = phoneNum.replace(/\D/g,'');
+    phoneNum = phoneNum.replace(/(\d{3})(\d{3})(\d{4})/, '$1-$2-$3');
+    let priceText = displayValue(input[i].price);
+    let ratingText = displayValue(input[i].rating);
+    let reviewCountText = displayValue(input[i].review_count);
+    let address1 = displayValue(input[i].location.display_address[0]);
+    let address2 = displayValue(input[i].location.display_address[1]);
+    function displayValue(value) {
+      if (typeof value === 'undefined') {
+        return 'N/A';
+      }
+      return value;
+    }
+    
+    // create each card and append it to the cards container
     $("#cards").append(
       `
       
@@ -36,31 +48,36 @@ function handleAPICall(input) {
             </div>
             <div class="card-content">
                 <ul>
-                  <li style="font-size: 20px;">Price: ${priceText}</li>
-                  <li style="font-size: 20px;">Rating: ${input[i].rating} <i class="material-icons md-18">star_rate</i></li>
-                  <li style="font-size: 15px;">${input[i].review_count} reviews</li>
+                  <li style="font-size: 18px;">Price: ${priceText}</li>
+                  <li style="font-size: 18px;">Rating: ${ratingText}<i class="material-icons inline-icon md-18">star_rate</i></li>
+                  <li style="font-size: 15px;">${reviewCountText} reviews</li>
                 </ul>
             </div>
             <div class="card-action" style="min-height: 100.5px;">
-              <a href="#">${input[i].display_phone}</a> <br>
-              <a class="restaurant-address" href="#">${input[i].location.display_address[0]} ${input[i].location.display_address[1]}</a>
+              <i class="material-icons md-18 inline-icon">call</i>
+              <a href="tel:${phoneNum}" style="font-size: 18px;">${phoneNum}</a> <br>
+              <a class="restaurant-address" href="#" style="font-size: 18px;">${address1} ${address2}</a>
             </div>
           </div>
         </div>`
     );
     
+    // create an info window when a moouse is hovering over a pin
     const contentString = `<h6>${input[i].name}</h6>`;
     const infowindow = new google.maps.InfoWindow({
       content: contentString,
       ariaLabel: input[i].name,
     });
     
+    // create pins to represent resturants in the search area
     const marker = new google.maps.Marker({
       position: { lat: input[i].coordinates.latitude, lng: input[i].coordinates.longitude },
       map: map,
       title: input[i].name
     });
 
+    // info window only shows when being hovered over
+    // pin is removed when mouse moves away
     marker.addListener("mouseover", () => {
       infowindow.open({
         anchor: marker,
@@ -72,6 +89,7 @@ function handleAPICall(input) {
     });
   }
 
+  // when user click on an address on the restaurant card, the map will move to that location and zoom in
   const restaurantAddress = document.querySelectorAll(".restaurant-address");
   restaurantAddress.forEach(function (address) {
     address.addEventListener("click", function (event) {
@@ -82,7 +100,7 @@ function handleAPICall(input) {
         function (results, status) {
           if (status === "OK") {
             map.setCenter(results[0].geometry.location);
-            map.setZoom(15);
+            map.setZoom(18);
             new google.maps.Marker({
               map: map,
               position: results[0].geometry.location,
@@ -108,6 +126,9 @@ function initAutocomplete() {
     center: nashville,
     zoom: 12,
     mapTypeId: "roadmap",
+    disableDefaultUI: true,
+    scaleControl: true,
+    zoomControl: true,
   });
   // Create the search box and link it to the UI element.
   const input = document.getElementById("pac-input");
@@ -122,7 +143,7 @@ function initAutocomplete() {
   // more details for that place.
   searchBox.addListener("places_changed", () => {
     const places = searchBox.getPlaces();
-
+    map.setZoom(20);
     if (places.length == 0) {
       return;
     }
@@ -146,7 +167,6 @@ function initAutocomplete() {
         anchor: new google.maps.Point(17, 34),
         scaledSize: new google.maps.Size(25, 25),
       };
-      console.log(place.name);
       var cityName = `${place.name}`;
       getYelpData(
         "https://api.yelp.com/v3/businesses/search?location=" +
@@ -171,6 +191,7 @@ function initAutocomplete() {
       }
     });
     map.fitBounds(bounds);
+    map.setZoom(12);
   });
 }
 
