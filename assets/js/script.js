@@ -1,15 +1,14 @@
-let city = "Nashville";
 var map;
 
+// Make the API call to Yelp
 async function getYelpData(yelpURL) {
   try {
+    // thanks Caleb
     var baseURL = "https://yelp-server-caleb-crum.herokuapp.com/api?url=";
     var url = baseURL + encodeURIComponent(yelpURL);
 
     var res = await fetch(url);
-    // console.log(res);
     var data = await res.json();
-    // console.log(data);
 
     handleAPICall(data.businesses);
   } catch (err) {
@@ -17,10 +16,11 @@ async function getYelpData(yelpURL) {
   }
 }
 
+// Yelp API call will return information about 18 restaurants (6 cards on each row)
+// For each restaurant, the card will display information about the name, phone number,
+// address, cost, rating and review count
 function handleAPICall(input) {
-  console.log(input);
   for (let i = 0; i < input.length; i++) {
-/*     let phoneNum = `${input[i].display_phone}`; */
     let phoneNum = displayValue(input[i].display_phone);
     phoneNum = phoneNum.replace(/\D/g,'');
     phoneNum = phoneNum.replace(/(\d{3})(\d{3})(\d{4})/, '$1-$2-$3');
@@ -36,6 +36,7 @@ function handleAPICall(input) {
       return value;
     }
     
+    // create each card and append it to the cards container
     $("#cards").append(
       `
       
@@ -61,26 +62,34 @@ function handleAPICall(input) {
         </div>`
     );
     
+    // create an info window when a moouse is hovering over a pin
     const contentString = `<h6>${input[i].name}</h6>`;
     const infowindow = new google.maps.InfoWindow({
       content: contentString,
       ariaLabel: input[i].name,
     });
     
+    // create pins to represent resturants in the search area
     const marker = new google.maps.Marker({
       position: { lat: input[i].coordinates.latitude, lng: input[i].coordinates.longitude },
       map: map,
       title: input[i].name
     });
 
-    marker.addListener("hover", () => {
+    // info window only shows when being hovered over
+    // pin is removed when mouse moves away
+    marker.addListener("mouseover", () => {
       infowindow.open({
         anchor: marker,
         map,
       });
     });
+    marker.addListener("mouseout", () => {
+      infowindow.close();
+    });
   }
 
+  // when user click on an address on the restaurant card, the map will move to that location and zoom in
   const restaurantAddress = document.querySelectorAll(".restaurant-address");
   restaurantAddress.forEach(function (address) {
     address.addEventListener("click", function (event) {
@@ -158,7 +167,6 @@ function initAutocomplete() {
         anchor: new google.maps.Point(17, 34),
         scaledSize: new google.maps.Size(25, 25),
       };
-      console.log(place.name);
       var cityName = `${place.name}`;
       getYelpData(
         "https://api.yelp.com/v3/businesses/search?location=" +
